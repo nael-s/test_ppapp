@@ -1,5 +1,6 @@
 import AppLayout from "@/components/layouts/dashboard_layout";
 import "@/styles/globals.css";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
 
@@ -19,9 +20,20 @@ export default function App({
     (Component as NextPageWithLayout).getLayout ||
     ((page) => <AppLayout>{page}</AppLayout>);
 
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: 3,
+        refetchOnWindowFocus: false,
+      },
+    },
+  });
+
   return (
     <SessionProvider refetchOnWindowFocus={false} session={session}>
-      {getLayout(<Component {...pageProps} />)}
+      <QueryClientProvider client={queryClient}>
+        {getLayout(<Component {...pageProps} />)}
+      </QueryClientProvider>
     </SessionProvider>
   );
 }

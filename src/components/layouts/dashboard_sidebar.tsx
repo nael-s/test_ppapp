@@ -51,13 +51,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     },
     {
       label: "user management",
-      url: "/user management",
+      url: "/user_management",
       icon: <UserCheck />,
-    },
-    {
-      label: "keluar",
-      url: "/logout",
-      icon: <LogOut />,
     },
   ];
 
