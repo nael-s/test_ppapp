@@ -10,20 +10,21 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const dashboardRepository = AppDataSource.getRepository(DashboardEntity)
 
     const dashboards = await dashboardRepository.find({
-        relations: ["roles", "roles.role", "grafik", "grafik.variabel", "grafik.level_wilayah", "grid", 'grid.columns'],
+        relations: ["roles", "roles.role", "grafik", "grafik.variabel", "grafik.level_wilayah", "grid", 'grid.column'],
     });
 
     const result = dashboards.map((dashboard) => ({
         id: dashboard.id,
         label: dashboard.label,
+        role: dashboard.roles.map((r) => r.role.name),
         description: dashboard.description,
         path_user: dashboard.path_user,
-        icon: dashboard.icon,
-        show: dashboard.show,
         grid: {
             row: dashboard.grid
         },
-        role: dashboard.roles.map((r) => r.role.name),
+        variabel: [],
+        show: dashboard.show,
+        icon: dashboard.icon,
         grafik: dashboard.grafik.map((g) => ({
             id: g.id,
             dashboardId: dashboard.id,

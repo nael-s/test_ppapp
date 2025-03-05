@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, ManyToMany, JoinTable } from "typeorm";
 import { Exclude, Expose } from "class-transformer";
 import { DashboardGridRowColumn, DashboardEntity } from ".";
 
@@ -8,18 +8,29 @@ export class DashboardGridRow {
     @Exclude()
     @PrimaryGeneratedColumn()
     id: number;
-    
+
     @Expose()
     @Column()
     label: string;
-    
+
     @Expose()
     @Column({ default: false })
     highlight: boolean;
-    
+
     @Expose()
-    @OneToMany(() => DashboardGridRowColumn, (column) => column.row, { cascade: true })
-    columns: DashboardGridRowColumn[];
+    @ManyToMany(() => DashboardGridRowColumn, (column) => column.row, { cascade: true })
+    @JoinTable({
+        name: "dashboard_grid_row_column",
+        joinColumn: {
+            name: "grid_column_id",
+            referencedColumnName: "id"
+        },
+        inverseJoinColumn: {
+            name: "dashboard_grid_row_column_id",
+            referencedColumnName: "id"
+        }
+    })
+    column: DashboardGridRowColumn[];
 
     @ManyToOne(() => DashboardEntity, (dashboard) => dashboard.grid, { onDelete: "CASCADE" })
     dashboard: DashboardEntity;

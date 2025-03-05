@@ -1,8 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany } from "typeorm";
 import { DashboardGridRow } from ".";
 import { Exclude, Expose } from "class-transformer";
 
-@Entity("dashboard_grid_rows_columns")
+@Entity("grid_column")
 export class DashboardGridRowColumn {
     @Exclude()
     @PrimaryGeneratedColumn()
@@ -20,6 +20,6 @@ export class DashboardGridRowColumn {
     @Column()
     sm: number;
 
-    @ManyToOne(() => DashboardGridRow, (row) => row.columns, { onDelete: "CASCADE" })
+    @ManyToMany(() => DashboardGridRow, (row) => row.column)
     row: DashboardGridRow;
 }
