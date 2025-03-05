@@ -20,18 +20,18 @@ export const authOptions: NextAuthOptions = {
                 }
 
                 try {
-                    const res = await Api.post("/signin", {
+                    const res = await Api.post("/login", {
                         username: credentials.username,
                         password: credentials.password,
                     });
 
-                    if (res.status !== 201) {
+                    if (res.status !== 200) {
                         throw new Error("Authentication failed.");
                     }
 
-                    const user = res.data.data;
-                    if (user) {
-                        return user;
+                    const username = res.data;
+                    if (username) {
+                        return username;
                     } else {
                         throw new Error("Invalid user data.");
                     }
@@ -53,6 +53,7 @@ export const authOptions: NextAuthOptions = {
             return { ...token, ...user };
         },
         async session({ session, token }) {
+            console.log(session,'session')
             session.user = token as any;
 
             return session;

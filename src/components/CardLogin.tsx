@@ -22,6 +22,9 @@ import { Button } from "./ui/button";
 import { LockOpen, MoveLeft } from "lucide-react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/router";
+import { notifError, notifSucces } from "./ui/alert";
 
 const authSchema = z.object({
   username: z.string().min(3, {
@@ -40,6 +43,23 @@ const CardLogin = () => {
       password: "",
     },
   });
+  const router = useRouter();
+
+  const onSubmit = async (value: z.infer<typeof authSchema>) => {
+    await signIn("credentials", {
+      username: value.username,
+      password: value.password,
+      redirect: false,
+    }).then((res) => {
+      if (res?.status === 200) {
+        router.push("/");
+        notifSucces("Welcome to Dashboard");
+      } else {
+        notifError(`${res?.error}`);
+      }
+    });
+  };
+
   return (
     <>
       <div className="absolute top-14 left-20">
@@ -48,7 +68,7 @@ const CardLogin = () => {
             <CardTitle className="flex items-center justify-center gap-20">
               <div className="relative">
                 <Image
-                  src="/dppapp.svg"
+                  src="/images/dppapp.svg"
                   alt="dppapp"
                   width="100"
                   height="100"
@@ -57,7 +77,7 @@ const CardLogin = () => {
               </div>
               <div className="relative">
                 <Image
-                  src="/tp_pkk.svg"
+                  src="/images/tp_pkk.svg"
                   alt="tp_pkk"
                   width="100"
                   height="100"
@@ -74,7 +94,7 @@ const CardLogin = () => {
           </CardHeader>
           <CardContent>
             <Form {...form}>
-              <form>
+              <form onSubmit={form.handleSubmit(onSubmit)}>
                 <div className="grid w-full items-center gap-4">
                   <FormField
                     control={form.control}
@@ -135,7 +155,7 @@ const CardLogin = () => {
         <div className="flex mt-4 bg-white p-2 gap-2 items-center justify-center rounded-xl">
           <div className="relative">
             <Image
-              src="/logo_bkkbn.svg"
+              src="/images/logo_bkkbn.svg"
               alt="bkkbn"
               width="100"
               height="100"
@@ -144,7 +164,7 @@ const CardLogin = () => {
           </div>
           <div className="relative">
             <Image
-              src="/logo_carik_jakarta.svg"
+              src="/images/logo_carik_jakarta.svg"
               alt="carikjakarta"
               width="100"
               height="100"
@@ -153,7 +173,7 @@ const CardLogin = () => {
           </div>
           <div className="relative">
             <Image
-              src="/logo_sim_pkk.svg"
+              src="/images/logo_sim_pkk.svg"
               alt="sim_pkk"
               width="100"
               height="100"

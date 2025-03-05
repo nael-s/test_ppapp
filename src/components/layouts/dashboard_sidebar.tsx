@@ -36,7 +36,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const menu = [
     {
       label: "bnba",
-      url: "/bnba",
+      url: "/",
       icon: <House />,
     },
     {
@@ -60,14 +60,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     <Sidebar {...props}>
       <div className="flex bg-white p-4 gap-4 items-center justify-center border-b">
         <Image
-          src="/dppapp.svg"
+          src="/images/dppapp.svg"
           alt="dppapp"
           width={80}
           height={80}
           className="object-contain"
         />
         <Image
-          src="/tp_pkk.svg"
+          src="/images/tp_pkk.svg"
           alt="tp_pkk"
           width={80}
           height={80}
