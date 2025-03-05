@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { DataSource } from "typeorm";
 import { env } from 'process';
-import { DashboardEntity, DashboardRole, DashboardChart, ChartVariable, Role, DashboardGridRow, DashboardGridRowColumn, LevelWilayahEntity } from '@/entities/index';
+import { DashboardEntity, DashboardRole, DashboardChart, ChartVariable, Role, DashboardGridRow, DashboardGridRowColumn, LevelWilayahEntity, UserEntity } from '@/entities/index';
 
 export const AppDataSource = new DataSource({
     type: 'mysql',
@@ -12,5 +12,5 @@ export const AppDataSource = new DataSource({
     database: env.DB_NAME || 'testing_ppapp',
     synchronize: true,
     logging: false,
-    entities: [DashboardEntity, DashboardRole, DashboardChart, ChartVariable, Role, DashboardGridRow, DashboardGridRowColumn, LevelWilayahEntity],
+    entities: [DashboardEntity, DashboardRole, DashboardChart, ChartVariable, Role, DashboardGridRow, DashboardGridRowColumn, LevelWilayahEntity, UserEntity],
 });
