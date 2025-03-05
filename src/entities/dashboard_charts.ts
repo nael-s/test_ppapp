@@ -8,46 +8,51 @@ export class DashboardChart {
     @Expose()
     @PrimaryGeneratedColumn()
     id: number;
-    
+
     @Expose()
     @Column()
     label: string;
-    
+
     @Expose()
     @Column()
     deskripsi: string;
-    
+
     @Expose()
     @Column()
     model_chart: string;
-    
+
     @Expose()
     @Column()
     row: number;
-    
+
     @Expose()
     @Column()
     column: number;
-    
+
     @Expose()
     @Column()
     column_size: number;
-    
+
     @Expose()
     @Column({ default: true })
     show: boolean;
-    
+
     @ManyToOne(() => DashboardEntity, (dashboard) => dashboard.grafik)
     dashboard: DashboardEntity;
-    
+
     @Expose()
-    @OneToMany(() => ChartVariable, (variabel) => variabel.chart)
+    @ManyToMany(() => ChartVariable, { cascade: true })
+    @JoinTable({
+        name: "dashboard_chart_variabel",
+        joinColumn: { name: "chart_id", referencedColumnName: "id" },
+        inverseJoinColumn: { name: "variabel_id", referencedColumnName: "id" }
+    })
     variabel: ChartVariable[];
 
     @Expose()
     @ManyToMany(() => LevelWilayahEntity, { cascade: true })
     @JoinTable({
-        name: "dashboard_chart_level_wilayah", 
+        name: "dashboard_chart_level_wilayah",
         joinColumn: { name: "chart_id", referencedColumnName: "id" },
         inverseJoinColumn: { name: "level_wilayah_id", referencedColumnName: "id" }
     })

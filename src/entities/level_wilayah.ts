@@ -12,6 +12,6 @@ export class LevelWilayahEntity {
     @Column()
     name: string;
     
-    @ManyToMany(() => DashboardChart, (chart: { level_wilayah: any; }) => chart.level_wilayah)
+    @ManyToMany(() => DashboardChart, (chart) => chart.level_wilayah)
     charts: DashboardChart[];
 }

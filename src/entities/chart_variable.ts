@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany } from "typeorm";
 import { DashboardChart } from ".";
 
 @Entity("chart_variables")
@@ -9,6 +9,6 @@ export class ChartVariable {
     @Column()
     variabel: string;
 
-    @ManyToOne(() => DashboardChart, (chart) => chart.variabel)
+    @ManyToMany(() => DashboardChart, (chart) => chart.variabel)
     chart: DashboardChart;
 }
